@@ -45,17 +45,19 @@
 					<img src="images/fresh-install.png" height="500" width="838">
 				</section>
 				<section>
+					<h3>The problem</h3>
+					<img src="images/thunder-empty.png" height="500" width="851">
+				</section>
+				<section>
 					<h3>A solution?</h3>
 					<img src="images/node-add.png" height="400" width="483">
 				</section>
 				<section>
 					<h3>A solution?</h3>
 					<a href="https://www.drupal.org/project/devel">Devel generate</a>
-					<pre><code>
-$ composer require drupal/devel
+					<pre><code>$ composer require drupal/devel
 $ drush en devel_generate
-$ drush generate-content 10
-					</code></pre>
+$ drush generate-content 10</code></pre>
 				</section>
 				<section>
 					<h3>A solution?</h3>
@@ -64,13 +66,11 @@ $ drush generate-content 10
 				</section>
 				<section>
 					<h3>A solution?</h3>
-					<pre><code>
-$ drush sql-sync @production @self
-					</code></pre>
+					<pre><code>$ drush sql-sync @production @self</code></pre>
 				</section>
 				<section>
 					<h3>A solution?</h3>
-					<img src="">
+					<img src="images/thunder-filled.png" height="500" width="686">
 				</section>
 				<section>
 					<h3>Problems with database dumps</h3>
@@ -138,7 +138,385 @@ $ drush sql-sync @production @self
 						</li>
 					</ul>
 				</section>
+				<section>
+					<h3>The "Default Content" module</h3>
+					<p>Uses the <em>RESTful Web Services</em> module in core</p>
+					<table>
+						<tbody>
+							<tr><th colspan="5">Classic Drupal</th></tr>
+							<tr>
+								<td>Database</td>
+								<td></td>
+								<td>&LongLeftRightArrow;</td>
+								<td></td>
+								<td>Browser</td>
+							</tr>
+						</tbody>
+						<tbody class="fragment">
+							<tr><th colspan="5">RESTful Web Services</th></tr>
+							<tr>
+								<td>Database</td>
+								<td>&LongLeftRightArrow;</td>
+								<td>HAL-JSON</td>
+								<td>&LongLeftRightArrow;</td>
+								<td>App / Frontend</td>
+							</tr>
+						</tbody>
+						<tbody class="fragment">
+						<tr><th colspan="5">Default Content</th></tr>
+						<tr>
+							<td>Database</td>
+							<td>&LongLeftRightArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongLeftRightArrow;</td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>The "Default Content" module</h3>
+					<table>
+						<tbody>
+						<tr>
+							<td>Database</td>
+							<td>&LongLeftArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongLeftArrow;</td>
+							<td>Files</td>
+						</tr>
+						<tr>
+							<td>Database</td>
+							<td>&LongRightArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongRightArrow;</td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>The "Default Content" module</h3>
+					<table>
+						<tbody>
+						<tr>
+							<td>Database</td>
+							<td>&LongLeftArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongLeftArrow;</td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+					<p>Default content files belong to a module</p>
+				</section>
+				<section>
+					<h3>A Default Content example</h3>
+					<pre><code>$ ls modules/mymodule/**
+modules/mymodule/mymodule.info.yml
+modules/mymodule/mymodule.module
+modules/mymodule/...
 
+modules/mymodule/config:
+	...
+
+modules/mymodule/src:
+	...</code></pre>
+				</section>
+				<section>
+					<h3>A Default Content example</h3>
+					<pre><code>$ ls modules/mymodule/**
+modules/mymodule/...
+
+modules/mymodule/config:
+	...
+
+modules/mymodule/content:
+	block_content
+	node
+	taxonomy_term
+	user
+
+modules/mymodule/src:
+	...</code></pre>
+				</section>
+				<section>
+					<h3>A Default Content example</h3>
+					<pre><code>$ ls modules/mymodule/content/**
+modules/mymodule/content/block_content:
+	ad_block.json
+
+modules/mymodule/content/node:
+	front_page.json
+
+modules/mymodule/content/taxonomy_term:
+	tag_code_quality.json
+	tag_performance.json
+
+modules/mymodule/content/user:
+	editor.json
+	translator.json</code></pre>
+				</section>
+				<section>
+					<h3>A Default Content example</h3>
+					<p>File Format: <a href="http://stateless.co/hal_specification.html">HAL-JSON</a></p>
+					<pre><code>$ cat modules/mymodule/content/node/front_page.json
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/default\/node\/1?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/node\/article"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/uid": [
+            {
+                "href": "http:\/\/default\/user\/1?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/revision_uid": [
+            {
+                "href": "http:\/\/default\/user\/1?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_image": [
+            {
+                "href": "http:\/\/default\/sites\/default\/files\/2017-04\/generateImage_9TyK4v.gif",
+                "lang": "en"
+            }
+        ]
+    },
+    "nid": [
+        {
+            "value": 1
+        }
+    ],
+    "uuid": [
+        {
+            "value": "543e45c2-a360-4325-830b-44d8579a210d"
+        }
+    ],
+    "vid": [
+        {
+            "value": 1
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "article"
+        }
+    ],
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "title": [
+        {
+            "value": "The front page",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f487837-dba8-459c-b3a2-150b52f39169"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "9f487837-dba8-459c-b3a2-150b52f39169"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_image": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/default\/sites\/default\/files\/2017-04\/generateImage_9TyK4v.gif"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/file"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "23daa477-76c1-4d9f-8283-6e35c2507f46"
+                    }
+                ],
+                "uri": [
+                    {
+                        "value": "http:\/\/default\/sites\/default\/files\/2017-04\/generateImage_9TyK4v.gif"
+                    }
+                ],
+                "lang": "en"
+            }
+        ]
+    },
+    "created": [
+        {
+            "value": 1492860566,
+            "lang": "en"
+        }
+    ],
+    "changed": [
+        {
+            "value": 1492860566,
+            "lang": "en"
+        }
+    ],
+    "promote": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "sticky": [
+        {
+            "value": false,
+            "lang": "en"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": 1492860566
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "body": [
+        {
+            "value": "Welcome to my awesome site!",
+            "format": "plain_text",
+            "lang": "en"
+        }
+    ]
+}
+					</code></pre>
+				</section>
+				<section>
+					<h3>A Default Content example</h3>
+					<pre><code>$ drush pm-enable mymodule</code></pre>
+					<img src="images/node-front-page.png" height="500" width="776">
+				</section>
+				<section>
+					<h3>The "Default Content" module</h3>
+					<table>
+						<tbody>
+						<tr>
+							<td>Database</td>
+							<td>&LongLeftArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongLeftArrow;</td>
+							<td>Files &check;</td>
+						</tr>
+						<tr>
+							<td>Database</td>
+							<td>&LongRightArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongRightArrow;</td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>The "Default Content" module</h3>
+					<table>
+						<tbody>
+						<tr>
+							<td>Database</td>
+							<td>&LongRightArrow;</td>
+							<td>HAL-JSON</td>
+							<td>&LongRightArrow;</td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+					<p>Files can be exported via Drush</p>
+				</section>
+				<section>
+					<h3>Exporting Default Content</h3>
+					<p>Exporting a single content item</p>
+					<pre><code>$ drush default-content-export node 1 --file=modules/mymodule/content/node/article.json
+
+$ drush dce node 1 --file=modules/mymodule/content/node/article.json</code></pre>
+				</section>
+				<section>
+					<h3>Exporting Default Content</h3>
+					<p>Exporting a set of referencing content</p>
+					<pre><code>$ drush default-content-export-references node 1 --folder=modules/mymodule/content
+
+$ drush dcer node 1 --folder=modules/mymodule/content</code></pre>
+				</section>
+				<section>
+					<h3>Exporting Default Content</h3>
+					<p>Exporting all content of a type with references</p>
+					<pre><code>$ drush default-content-export-references node --folder=modules/mymodule/content
+
+$ drush dcer node --folder=modules/mymodule/content</code></pre>
+				</section>
+				<section>
+					<h3>Exporting Default Content</h3>
+					<p>Exporting a predefined set of content</p>
+					<pre><code>$ cat modules/mymodule/mymodule.info.yml
+name: 'My awesome module'
+...
+default_content:
+  block_content:
+    - 3a319162-5f9e-4268-b825-685b552a453b
+  node:
+    - ea5b825a-0fa6-4cdc-b70b-6646baaa26ad
+  taxonomy_term:
+    - 980219f1-47d6-4c43-a175-7dfb93a2c6f6
+    - 6bfe7f7e-543d-4377-93c7-f29a8537df84
+
+$ drush default-content-export-module mymodule
+
+$ drush dcem mymodule</code></pre>
+				</section>
 			</div>
 		</div>
 
