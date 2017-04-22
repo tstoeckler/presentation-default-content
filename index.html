@@ -208,10 +208,10 @@ $ drush generate-content 10</code></pre>
 						</tr>
 						</tbody>
 					</table>
-					<p>Default content files belong to a module</p>
+					<p>Content files belong to a module</p>
 				</section>
 				<section>
-					<h3>A Default Content example</h3>
+					<h3>Default Content example</h3>
 					<pre><code>$ ls modules/mymodule/**
 modules/mymodule/mymodule.info.yml
 modules/mymodule/mymodule.module
@@ -224,7 +224,8 @@ modules/mymodule/src:
 	...</code></pre>
 				</section>
 				<section>
-					<h3>A Default Content example</h3>
+					<h3>Default Content example</h3>
+					<p>Files are in a <code>content</code> directory of a module</p>
 					<pre><code>$ ls modules/mymodule/**
 modules/mymodule/...
 
@@ -241,7 +242,8 @@ modules/mymodule/src:
 	...</code></pre>
 				</section>
 				<section>
-					<h3>A Default Content example</h3>
+					<h3>Default Content example</h3>
+					<p>Files are grouped by entity type</p>
 					<pre><code>$ ls modules/mymodule/content/**
 modules/mymodule/content/block_content:
 	ad_block.json
@@ -258,7 +260,7 @@ modules/mymodule/content/user:
 	translator.json</code></pre>
 				</section>
 				<section>
-					<h3>A Default Content example</h3>
+					<h3>Default Content example</h3>
 					<p>File Format: <a href="http://stateless.co/hal_specification.html">HAL-JSON</a></p>
 					<pre><code>$ cat modules/mymodule/content/node/front_page.json
 {
@@ -437,7 +439,7 @@ modules/mymodule/content/user:
 					</code></pre>
 				</section>
 				<section>
-					<h3>A Default Content example</h3>
+					<h3>Default Content example</h3>
 					<pre><code>$ drush pm-enable mymodule</code></pre>
 					<img src="images/node-front-page.png" height="500" width="776">
 				</section>
@@ -516,6 +518,137 @@ default_content:
 $ drush default-content-export-module mymodule
 
 $ drush dcem mymodule</code></pre>
+				</section>
+				<section>
+					<h3>Benefits of "Default Content"</h3>
+					<ul>
+						<li>
+						Builds on <em>RESTful Web Services</em>
+						<ul>
+							<li>Works out of the box for most entity types</li>
+							<li>No configuration necessary</li>
+						</ul>
+						</li>
+						<li class="fragment">Automatic import</li>
+						<li class="fragment">Drush support for exporting</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Downsides of "Default Content"</h3>
+					<ul>
+						<li>
+						Builds on <em>RESTful Web Services</em>
+						<ul>
+							<li>Exporting files requires <a href="https://www.drupal.org/project/file_entity">File Entity</a></li>
+							<li>Path aliases require <a href="https://www.drupal.org/project/default_content_extra">Default Content Extras</a></li>
+							<li>Problems with menu links</li>
+							<li>Verbose output</li>
+							<li>No embedding</li>
+						</ul>
+						</li>
+						<li class="fragment">UUIDs as filenames</li>
+						<li class="fragment">No support for re-importing<a href="https://www.drupal.org/node/2698425">*</a></li>
+						<li class="fragment">Does not work with configuration import<a href="https://www.drupal.org/node/2833562">*</a></li>
+					</ul>
+				</section>
+				<section>
+					<h3>Default Content: The How</h3>
+					<ul>
+						<li>Core: &cross;</li>
+						<li>
+							Contrib:
+							<ul>
+								<li><a href="https://www.drupal.org/project/default_content">Default Content</a> &check;</li>
+								<li><a href="https://www.drupal.org/project/migrate_default_content">Migrate Default Content</a></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>"Migrate Default Content"</h3>
+					<p>Uses the <em>Migrate</em> module in core</p>
+					<table>
+						<tbody>
+						<tr><th colspan="5">Migrate</th></tr>
+						<tr>
+							<td>Database</td>
+							<td></td>
+							<td>&LongLeftArrow;</td>
+							<td></td>
+							<td><ul>
+								<li>Drupal 6 database</li>
+								<li>Drupal 7 database</li>
+								<li>...</li>
+							</ul></td>
+						</tr>
+						</tbody>
+						<tbody class="fragment">
+						<tr><th colspan="5">Migrate Default Content</th></tr>
+						<tr>
+							<td>Database</td>
+							<td></td>
+							<td>&LongLeftArrow;</td>
+							<td></td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>"Migrate Default Content"</h3>
+					<table>
+						<tbody>
+						<tr>
+							<td>Database</td>
+							<td></td>
+							<td>&LongLeftArrow;</td>
+							<td></td>
+							<td>Files</td>
+						</tr>
+						</tbody>
+					</table>
+					<p>Content files are in a configurable directory</p>
+					<pre><code>$ drush config-get migrate_default_content.settings
+source_dir: '../default_content'</code></pre>
+					<p class="fragment">No user interface!</p>
+				</section>
+				<section>
+					<h3>Migrate Default Content example</h3>
+					<p>All content for a given entity type and bundle is in a single file</p>
+					<pre><code>$ ls ../default_content
+block_content.basic.yml
+node.article.yml
+node.page.yml
+taxonomy_term.tags.yml
+user.user.yml</code></pre>
+				</section>
+				<section>
+					<h3>Default Content example</h3>
+					<p>File Format: YAML</p>
+					<pre><code>$ cat ../default_content/node.page.yml
+-
+  title: 'Unpublished page'
+  status: false
+-
+  title: 'Front page'
+  bodyValue: 'Welcome to my awesome website!'
+  bodyFormat: plain_text
+-
+  title: 'Services'
+  field_imageTarget_id: services.jpg
+  field_imageAlt: 'A photo of a client meeting'</code></pre>
+				</section>
+				<section>
+					<h3>Default Content example</h3>
+					<p>File support!</p>
+					<pre><code>$ ls ../default_content/files
+services.jpg
+
+$ cat ../default_content/node.page.yml
+-
+  title: 'Services'
+  field_imageTarget_id: services.jpg
+  field_imageAlt: 'A photo of a client meeting'</code></pre>
 				</section>
 			</div>
 		</div>
