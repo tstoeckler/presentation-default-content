@@ -24,8 +24,121 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Default Content</h1>
+					<h2>The Why and the How</h2>
+				</section>
+				<section>
+					<h3>The problem</h3>
+					<blockquote>How do I get content on my local site?</blockquote>
+				</section>
+				<section>
+					<h3>The problem</h3>
+					<ul>
+						<li>I want to reproduce a bug</li>
+						<li class="fragment">I want to test a new feature I built</li>
+						<li class="fragment">I am a CI runner and need content for testing</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The problem</h3>
+					<img src="images/fresh-install.png" height="500" width="838">
+				</section>
+				<section>
+					<h3>A solution?</h3>
+					<img src="images/node-add.png" height="400" width="483">
+				</section>
+				<section>
+					<h3>A solution?</h3>
+					<a href="https://www.drupal.org/project/devel">Devel generate</a>
+					<pre><code>
+$ composer require drupal/devel
+$ drush en devel_generate
+$ drush generate-content 10
+					</code></pre>
+				</section>
+				<section>
+					<h3>A solution?</h3>
+					<p><a href="https://www.drupal.org/project/devel">Devel generate</a></p>
+					<img src="images/generated-content.png" height="300" width="424">
+				</section>
+				<section>
+					<h3>A solution?</h3>
+					<pre><code>
+$ drush sql-sync @production @self
+					</code></pre>
+				</section>
+				<section>
+					<h3>A solution?</h3>
+					<img src="">
+				</section>
+				<section>
+					<h3>Problems with database dumps</h3>
+					<ul>
+						<li>Authorization</li>
+						<li class="fragment">Sanitization
+							<ul>
+								<li>Email addresses</li>
+								<li>Password hashes</li>
+								<li>...</li>
+							</ul>
+						</li>
+						<li class="fragment">Portability</li>
+					</ul>
+				</section>
+				<section>
+					<h3>A different solution</h3>
+					<blockquote>Have files in the repository that are turned into content when (re-)installing Drupal</blockquote>
+				</section>
+				<section>
+					<h3>A different solution</h3>
+					<blockquote>Have <strong>default content</strong> in the repository that gets installed as part of the site installation</blockquote>
+				</section>
+				<section>
+					<h3>Benefits of Default Content</h3>
+					<table>
+						<tr><td>In the repository</td><td>&rarr;</td><td><del>Authorization</del></td></tr>
+						<tr class="fragment"><td>No sensitive information</td><td>&rarr;</td><td><del>Sanitization</del></td></tr>
+						<tr class="fragment"><td>Fresh installation</td><td>&rarr;</td><td>Portability &check;</td></tr>
+					</table>
+				</section>
+				<section>
+					<h3>Downsides of Default Content</h3>
+					<ul>
+						<li>Drupal installation is slow
+							<ul>
+								<li><em>O(</em>module count<em>)</em></li>
+								<li>Localization</li>
+							</ul>
+						</li>
+						<li class="fragment">
+							A lot of default content can be needed
+							<img src="images/pager.png">
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Default Content<h3>
+					<h4>The Why and the How</h4>
+					<ul>
+						<li>Why &check;</li>
+						<li>How ?</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Default Content: The How</h3>
+					<ul>
+						<li>Core: &cross;</li>
+						<li class="fragment">
+							Contrib:
+							<ul>
+								<li><a href="https://www.drupal.org/project/default_content">Default Content</a></li>
+								<li><a href="https://www.drupal.org/project/migrate_default_content">Migrate Default Content</a></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
 			</div>
 		</div>
 
