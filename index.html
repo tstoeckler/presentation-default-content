@@ -118,7 +118,7 @@ $ drush generate-content 10</code></pre>
 					</ul>
 				</section>
 				<section>
-					<h3>Default Content<h3>
+					<h3>Default Content</h3>
 					<h4>The Why and the How</h4>
 					<ul>
 						<li>Why &check;</li>
@@ -639,7 +639,7 @@ user.user.yml</code></pre>
   field_imageAlt: 'A photo of a client meeting'</code></pre>
 				</section>
 				<section>
-					<h3>Default Content example</h3>
+					<h3>Migrate Default Content example</h3>
 					<p>File support!</p>
 					<pre><code>$ ls ../default_content/files
 services.jpg
@@ -649,6 +649,133 @@ $ cat ../default_content/node.page.yml
   title: 'Services'
   field_imageTarget_id: services.jpg
   field_imageAlt: 'A photo of a client meeting'</code></pre>
+				</section>
+				<section>
+					<h3>Migrate Default Content example</h3>
+					<p>Migration process can be overridden</p>
+					<pre><code>$ cat ../default_content/overrides/node.article.yml</code></pre>
+				</section>
+				<section>
+					<h3>Migrate Default Content example</h3>
+					<p>Migration process can be overridden</p>
+					<pre><code>$ cat ../default_content/overrides/node.article.yml</code></pre>
+				</section>
+				<section>
+					<h3>Importing Default Content</h3>
+					<p>Requires <a href="https://www.drupal.org/project/migrate_tools">Migrate Tools</a></p>
+					<pre><code>$ drush migrate-import --tag=migrate_default_content</code></pre>
+				</section>
+				<section>
+					<h3>Importing Default Content</h3>
+					<p>Requires <a href="https://www.drupal.org/project/migrate_tools">Migrate Tools</a></p>
+					<pre><code>$ drush migrate-import --tag=migrate_default_content --update</code></pre>
+				</section>
+				<section>
+					<h3>Importing Default Content</h3>
+					<p>Requires <a href="https://www.drupal.org/project/migrate_tools">Migrate Tools</a></p>
+					<pre><code>$ drush migrate-import migrate_default_content_node_article --execute-dependencies</code></pre>
+				</section>
+				<section>
+					<h3>Benefits of Migrate Default Content</h3>
+					<ul>
+						<li>
+							Builds on Migrate
+							<ul>
+								<li>Embedded content</li>
+								<li>Flexible import</li>
+							</ul>
+						</li>
+						<li class="fragment">File support</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Downsides of Migrate Default Content</h3>
+					<ul>
+						<li>
+							Builds on Migrate
+							<ul>
+								<li>No export support</li>
+							</ul>
+						</li>
+						<li class="fragment">Migrations must be run explicitly</li>
+						<li class="fragment">Migration files can get large</li>
+						<li class="fragment">Strange syntax</li>
+						<li class="fragment">Does not work with Entity Reference Revisions</li>
+						<li class="fragment">Problems with Paragraphs</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Comparison</h3>
+					<table>
+						<thead>
+						<tr><th></th><th>Default Content</th><th>Migrate Default Content</th></tr>
+						</thead>
+						<tbody>
+						<tr class="fragment"><td>Stable release</td><td>&cross; (alpha)</td><td>&cross; (dev)</td></tr>
+						<tr class="fragment"><td>Dependencies</td><td>0</td><td>4 / 0 / 2</td></tr>
+						<tr class="fragment"><td>Usage</td><td>~4,300</td><td>~40</td></tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>Comparison</h3>
+					<table>
+						<thead>
+						<tr><th></th><th>Default Content</th><th>Migrate Default Content</th></tr>
+						</thead>
+						<tbody>
+						<tr><td>Drush Export</td><td>&check;</td><td>&cross;</td></tr>
+						<tr class="fragment"><td>UI Export</td><td>&cross;</td><td>&cross;</td></tr>
+						<tr class="fragment"><td>Re-import</td><td>&cross;</td><td>&check;</td></tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>Comparison</h3>
+					<table>
+						<thead>
+						<tr><th></th><th>Default Content</th><th>Migrate Default Content</th></tr>
+						</thead>
+						<tbody>
+						<tr><td>Format</td><td>HAL-JSON</td><td>YAML</td></tr>
+						<tr class="fragment"><td>File location</td><td>Module</td><td>Specified directory</td></tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>Comparison</h3>
+					<p>Integrations</p>
+					<table>
+						<thead>
+						<tr><th></th><th>Default Content</th><th>Migrate Default Content</th></tr>
+						</thead>
+						<tbody>
+						<tr class="fragment"><td>Entity Reference</td><td>&check;</td><td>&check;</td></tr>
+						<tr class="fragment"><td>Files</td><td>&cross; / &check;</td><td>&check;</td></tr>
+						<tr class="fragment"><td>Path aliases</td><td>&cross; / &check;</td><td>&check;</td></tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>Comparison</h3>
+					<p>Integrations</p>
+					<table>
+						<thead>
+						<tr><th></th><th>Default Content</th><th>Migrate Default Content</th></tr>
+						</thead>
+						<tbody>
+						<tr><td>Menu links</td><td>&check; / &cross;</td><td>&check;</td></tr>
+						<tr class="fragment"><td>Shortcuts</td><td>&check; / &cross;</td><td>&check;</td></tr>
+						<tr class="fragment"><td>Entity Reference Revisions</td><td>&check;</td><td>&cross; / &check;</td></tr>
+						<tr class="fragment"><td>Paragraphs</td><td>&check;</td><td>&cross;</td></tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h3>Questions?</h3>
+				</section>
+				<section>
+					<h3>Thank you!</h3>
 				</section>
 			</div>
 		</div>
