@@ -543,7 +543,6 @@ $ drush dcem mymodule</code></pre>
 							<li>Path aliases require <a href="https://www.drupal.org/project/default_content_extra">Default Content Extras</a></li>
 							<li>Problems with menu links</li>
 							<li>Verbose output</li>
-							<li>No embedding</li>
 						</ul>
 						</li>
 						<li class="fragment">UUIDs as filenames</li>
@@ -653,12 +652,13 @@ $ cat ../default_content/node.page.yml
 				<section>
 					<h3>Migrate Default Content example</h3>
 					<p>Migration process can be overridden</p>
-					<pre><code>$ cat ../default_content/overrides/node.article.yml</code></pre>
-				</section>
-				<section>
-					<h3>Migrate Default Content example</h3>
-					<p>Migration process can be overridden</p>
-					<pre><code>$ cat ../default_content/overrides/node.article.yml</code></pre>
+					<pre><code>$ cat ../default_content/overrides/node.article.yml
+
+process:
+  field_tags:
+    plugin: default_value
+    default_value:
+      - Performance</code></pre>
 				</section>
 				<section>
 					<h3>Importing Default Content</h3>
